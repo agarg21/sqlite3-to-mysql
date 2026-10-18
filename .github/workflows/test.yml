@@ -8,6 +8,7 @@ on:
     branches:
       - master
   workflow_call:
+  workflow_dispatch:  # fork-only (measurement)
 
 defaults:
   run:
@@ -33,6 +34,8 @@ jobs:
         run: |
           python3 -m pip install --upgrade pip
           pip install -r requirements_dev.txt
+      - name: CPU info  # fork-only (measurement)
+        run: lscpu | grep -E 'Model name|^CPU\(s\)'
       - name: Run static analysis
         run: tox -e linters
   test:
